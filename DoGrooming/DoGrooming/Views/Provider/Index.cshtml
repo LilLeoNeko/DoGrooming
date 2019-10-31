@@ -1,0 +1,13 @@
+﻿@model DoGrooming.ViewModels.ProviderList
+@{
+    ViewBag.Title = "Provider List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Provider List</h2>
+<ul>
+    @foreach (var provider in Model.Providers)
+    {
+        <li>@Html.ActionLink(provider.Name, "Detail", "Provider", new {provider.Id}, null)</li>
+    }
+</ul>

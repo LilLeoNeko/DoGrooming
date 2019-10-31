@@ -11,25 +11,31 @@ namespace DoGrooming.Controllers
     public class ProviderController : Controller
     {
         // GET: Provider
-        public ActionResult Display()
+        [Route("provider/index")]
+        public ActionResult Index()
         {
-            var provider = new Provider {Name = "Number1"};
-            var services = new List<Service>
+            var providerList = new ProviderList
             {
-                new Service {Name= "Hair Cut"},
-                new Service {Name = "Body Clean"}
+                Providers = GetProviders()
             };
-            var content = new ProviderServiceViewModel
-            {
-                Provider = provider,
-                Services = services
-            };
-            return View(content);
+            return View(providerList);
         }
-        [Route("provider/{id}/{name}")]
-        public ActionResult Test(int id, string name)
+        [Route("provider/detail/{id}")]
+        public ActionResult Detail(int id)
         {
-            return Content(id + "/" + name);
+            var curProvider = GetProviders().Find(x => x.Id == id);
+            if (curProvider == null)
+                return HttpNotFound();
+            return View(curProvider);
+        }
+        public List<Provider> GetProviders()
+        {
+            var providers = new List<Provider>
+            {
+                new Provider { Id = 1, Name = "Charming", Address = "105/130 Country Street"},
+                new Provider { Id = 2, Name = "Beauty Dog", Address = "666/233 Newtown Road"}
+            };
+            return providers;
         }
     }
 }
